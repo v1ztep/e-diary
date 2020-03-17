@@ -1,8 +1,8 @@
 from django.db import models
 
-from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
-from datacenter.models import Lesson, Schoolkid, Chastisement, Mark, Commendation
-import random
+# from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
+# from datacenter.models import Lesson, Schoolkid, Chastisement, Mark, Commendation
+# import random
 
 
 def fix_marks(schoolkid_name):
