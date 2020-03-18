@@ -10,6 +10,7 @@ def fix_marks(schoolkid_name):
         for mark in schoolkid_marks:
             mark.points = 5
             mark.save()
+        print('Все плохие оценки для "{}" исправлены на 5'.format(schoolkid.full_name))
     except ObjectDoesNotExist:
         print('Введено имя:', schoolkid_name, '- Ученика с таким ФИО нет в базе.\nИсправте ФИО и повторите попытку')
     except MultipleObjectsReturned:
@@ -21,6 +22,7 @@ def remove_chastisements(schoolkid_name):
         schoolkid = Schoolkid.objects.get(full_name__contains=schoolkid_name)
         schoolkid_chastisements = Chastisement.objects.filter(schoolkid=schoolkid)
         schoolkid_chastisements.delete()
+        print('Все замечания для "{}" удалены'.format(schoolkid.full_name))
     except ObjectDoesNotExist:
         print('Введено имя:', schoolkid_name, '- Ученика с таким ФИО нет в базе.\nИсправте ФИО и повторите попытку')
     except MultipleObjectsReturned:
@@ -44,7 +46,9 @@ def create_commendation(schoolkid_name, subject_name):
         for lesson in lessons:
             presence_commendation = Commendation.objects.filter(created=lesson.date, schoolkid=schoolkid, subject=lesson.subject, teacher=lesson.teacher)
             if len(presence_commendation) < 1:
-                Commendation.objects.create(text=random.choice(commendations_text), created=lesson.date, schoolkid=schoolkid, subject=lesson.subject, teacher=lesson.teacher)
+                commendation_text = random.choice(commendations_text)
+                Commendation.objects.create(text=commendation_text, created=lesson.date, schoolkid=schoolkid, subject=lesson.subject, teacher=lesson.teacher)
+                print('Создана похвала: "{}" - по предмету "{}" для "{}"'.format(commendation_text, subject_name, schoolkid.full_name))
                 return
     except ObjectDoesNotExist:
         print('Введено имя:', schoolkid_name, '- Ученика с таким ФИО нет в базе.\nИсправте ФИО и повторите попытку')
